@@ -1,10 +1,20 @@
-# Almoxarifado
+# Prova prática Função 2
 
-API de controle de produtos e movimentações, com administrador e operador. Usa Node.js, Express, Sequelize e MySQL.
+Sistema de almoxarifado da situação-problema do PDF da prova. Implementa os perfis administrador e operador, o controle de saldo e o registro das movimentações com data, hora e responsável.
+
+## Entregas da prova
+
+| Entrega | Implementação |
+|---|---|
+| Versionamento | Branch `pedro-braga`, criada de `main`, e pull request para `main` |
+| Arquitetura do sistema | Código separado em rotas, controladores, serviços, modelos e middlewares |
+| Usuários, perfis e segurança | Cadastro, autenticação, dois perfis e rotas privadas com controle de acesso |
+| Estoque | Produtos com paginação e filtros por nome e data; movimentações com atualização do saldo e bloqueio de saída acima do disponível |
+| Testes | Três cenários de saída, plano em `docs/plano_testes.docx`, evidências em `docs/testes` e `resultados.docx` na raiz |
 
 ## Executar
 
-É necessário ter Node.js 24 ou superior e MySQL 8 em execução.
+Esta implementação usa Node.js 24 ou superior, Express, Sequelize e MySQL 8. Para executar localmente, mantenha o serviço MySQL em execução.
 
 ```powershell
 npm ci

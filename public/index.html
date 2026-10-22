@@ -2,27 +2,35 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Entrar | 📦 Estoque Braga</title>
-  <link rel="stylesheet" href="css/estilo.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar - Almoxarifado</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+  <script src="/js/comum.js" defer></script>
+  <script src="/js/login.js" defer></script>
 </head>
-<body class="pagina-login">
-  <div class="cartao caixa-login">
-    <div class="icone">📦</div>
-    <h1>Estoque Braga</h1>
-    <p class="subtitulo">Entre com seu e-mail e senha</p>
-    <form id="form-login">
-      <label for="email">E-mail</label>
-      <input type="email" id="email" placeholder="seuemail@exemplo.com" required>
-      <label for="senha">Senha</label>
-      <input type="password" id="senha" placeholder="Digite sua senha" required>
-      <button type="submit" class="botao">Entrar</button>
+<body><main>
+  <h1>Almoxarifado</h1>
+  <h2>Entrar</h2>
+  <form id="login">
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" autocomplete="username" required>
+    <label for="senha">Senha</label>
+    <input id="senha" name="senha" type="password" autocomplete="current-password" required>
+    <div><button type="submit">Entrar</button></div>
+  </form>
+  <p id="mensagem" class="mensagem" role="status"></p>
+  <details>
+    <summary>Cadastrar operador</summary>
+    <form id="cadastro">
+      <label for="novo-nome">Nome</label>
+      <input id="novo-nome" name="nome" maxlength="100" required>
+      <label for="novo-email">E-mail</label>
+      <input id="novo-email" name="email" type="email" autocomplete="username" required>
+      <label for="nova-senha">Senha (mínimo de 6 caracteres)</label>
+      <input id="nova-senha" name="senha" type="password" autocomplete="new-password" minlength="6" required>
+      <div><button type="submit">Cadastrar</button></div>
     </form>
-    <p id="mensagem" class="mensagem"></p>
-    <p class="mensagem"><a href="cadastro.html">Criar conta</a> · <a href="sobre.html">Sobre</a></p>
-  </div>
-  <footer class="rodape">Estoque Braga © 2026 | Pedro do Nascimento Braga | Turma 996</footer>
-  <script src="js/comum.js"></script>
-  <script src="js/login.js"></script>
-</body>
+    <p id="cadastro-mensagem" class="mensagem" role="status"></p>
+  </details>
+</main></body>
 </html>

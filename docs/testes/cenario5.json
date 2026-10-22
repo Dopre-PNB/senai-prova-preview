@@ -1,0 +1,41 @@
+{
+  "id": 5,
+  "titulo": "Cadastro e proteção da senha",
+  "dados": "Nome, email válido, senha de teste e tipo administrador no cadastro público.",
+  "passos": "Cadastrar usuário e conferir o registro no banco.",
+  "esperado": "HTTP 201; usuário criado como operador; senha armazenada com hash bcrypt; resposta não contém senha.",
+  "inicio": "2026-10-22T11:40:10.462Z",
+  "evidencias": [
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "POST",
+        "rota": "/usuarios",
+        "corpo": {
+          "nome": "Cadastro de teste",
+          "email": "cadastro@teste.local",
+          "senha": "[omitido]",
+          "tipo": "administrador"
+        },
+        "status": 201,
+        "resposta": {
+          "id": 3,
+          "nome": "Cadastro de teste",
+          "email": "cadastro@teste.local",
+          "tipo": "operador"
+        }
+      }
+    },
+    {
+      "nome": "Banco",
+      "dados": {
+        "id": 3,
+        "tipo": "operador",
+        "hashBcryptConfere": true
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:10.609Z"
+}

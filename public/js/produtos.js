@@ -1,103 +1,108 @@
-let paginaAtual = 1;
-const limite = 5;
+let pagina = 1;
+let usuarioAtual;
+let filtros = {};
 
-async function carregarProdutos() {
-  const nome = document.getElementById('busca-nome').value;
+function cancelarEdicao() {
+  document.getElementById('produto').reset();
+  document.getElementById('produto-id').value = '';
+  document.getElementById('form-titulo').textContent = 'Cadastrar produto';
+  document.getElementById('cancelar').hidden = true;
+}
+
+function editar(produto) {
+  document.getElementById('produto-id').value = produto.id;
+  document.getElementById('nome').value = produto.nome;
+  document.getElementById('descricao').value = produto.descricao || '';
+  document.getElementById('form-titulo').textContent = 'Editar produto ' + produto.id;
+  document.getElementById('cancelar').hidden = false;
+  document.getElementById('nome').focus();
+}
+
+async function excluir(produto) {
+  if (!confirm('Excluir o produto ' + produto.nome + '?')) return;
   try {
-    const resposta = await fetch(`/produtos?pagina=${paginaAtual}&limite=${limite}&nome=${encodeURIComponent(nome)}`, {
-      headers: { 'Authorization': 'Bearer ' + pegarToken() },
-    });
-    if (tratarSessaoExpirada(resposta)) return;
-    const dados = await resposta.json();
-    if (!resposta.ok) {
-      mostrarMensagem(dados.mensagem || dados.erro, 'erro');
-      return;
-    }
-    const tabela = document.getElementById('lista-produtos');
-    tabela.innerHTML = '';
-    if (dados.length === 0) {
-      tabela.innerHTML = '<tr><td colspan="5">Nenhum produto encontrado.</td></tr>';
-    }
-    dados.forEach(function (produto) {
-      tabela.innerHTML += `
-        <tr>
-          <td>${produto.id}</td>
-          <td>${protegerTexto(produto.nome)}</td>
-          <td>${protegerTexto(produto.descricao)}</td>
-          <td>${produto.quantidade_estoque}</td>
-          <td><button type="button" class="botao botao-perigo botao-pequeno" onclick="excluirProduto(${produto.id})">Excluir</button></td>
-        </tr>`;
-    });
-    document.getElementById('numero-pagina').textContent = paginaAtual;
-    document.getElementById('botao-anterior').disabled = paginaAtual === 1;
-    document.getElementById('botao-proxima').disabled = dados.length < limite;
+    await api('/produtos/' + produto.id, { method: 'DELETE' });
+    if (document.getElementById('produto-id').value === String(produto.id)) cancelarEdicao();
+    await carregar();
+    mensagem('Produto excluído.');
   } catch (erro) {
-    mostrarMensagem('Não foi possível conectar ao servidor.', 'erro');
+    mensagem(erro.message, true);
   }
 }
 
-const formProduto = document.getElementById('form-produto');
-formProduto.addEventListener('submit', async function (evento) {
-  evento.preventDefault();
-  const produto = {
-    nome: document.getElementById('nome').value,
-    descricao: document.getElementById('descricao').value,
-    quantidade_estoque: Number(document.getElementById('quantidade_estoque').value),
-  };
-  try {
-    const resposta = await fetch('/produtos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + pegarToken(),
-      },
-      body: JSON.stringify(produto),
-    });
-    if (tratarSessaoExpirada(resposta)) return;
-    const dados = await resposta.json();
-    if (resposta.ok) {
-      mostrarMensagem('Produto cadastrado com sucesso!', 'sucesso');
-      formProduto.reset();
-      carregarProdutos();
-    } else {
-      mostrarMensagem(dados.mensagem || dados.erro, 'erro');
-    }
-  } catch (erro) {
-    mostrarMensagem('Não foi possível conectar ao servidor.', 'erro');
+async function carregar() {
+  const parametros = new URLSearchParams({ pagina, limite: 10, ...filtros });
+  let produtos = await api('/produtos?' + parametros);
+  if (produtos.length === 0 && pagina > 1) {
+    pagina--;
+    return carregar();
   }
-});
+  const lista = document.getElementById('lista');
+  lista.replaceChildren();
+  for (const produto of produtos) {
+    const linha = document.createElement('tr');
+    celula(linha, produto.id);
+    celula(linha, produto.nome);
+    celula(linha, produto.descricao);
+    celula(linha, produto.quantidade_estoque);
+    celula(linha, dataHora(produto.createdAt));
+    const acoes = celula(linha, '');
+    botao(acoes, 'Editar', () => editar(produto));
+    if (usuarioAtual.tipo === 'administrador') botao(acoes, 'Excluir', () => excluir(produto));
+    lista.appendChild(linha);
+  }
+  if (!produtos.length) {
+    const linha = document.createElement('tr');
+    celula(linha, 'Nenhum produto encontrado.').colSpan = 6;
+    lista.appendChild(linha);
+  }
+  document.getElementById('pagina').textContent = 'Página ' + pagina;
+  document.getElementById('anterior').disabled = pagina === 1;
+  document.getElementById('proxima').disabled = produtos.length < 10;
+}
 
-async function excluirProduto(id) {
-  if (!confirm('Tem certeza que deseja excluir este produto?')) return;
+async function mudarPagina(direcao) {
+  const anterior = pagina;
+  pagina += direcao;
   try {
-    const resposta = await fetch(`/produtos/${id}`, {
-      method: 'DELETE',
-      headers: { 'Authorization': 'Bearer ' + pegarToken() },
-    });
-    if (tratarSessaoExpirada(resposta)) return;
-    const dados = await resposta.json();
-    if (resposta.ok) {
-      mostrarMensagem(dados.mensagem, 'sucesso');
-      carregarProdutos();
-    } else {
-      mostrarMensagem(dados.mensagem || dados.erro, 'erro');
-    }
+    await carregar();
   } catch (erro) {
-    mostrarMensagem('Não foi possível conectar ao servidor.', 'erro');
+    pagina = anterior;
+    mensagem(erro.message, true);
   }
 }
 
-document.getElementById('botao-buscar').addEventListener('click', function () {
-  paginaAtual = 1;
-  carregarProdutos();
-});
-document.getElementById('botao-anterior').addEventListener('click', function () {
-  paginaAtual = paginaAtual - 1;
-  carregarProdutos();
-});
-document.getElementById('botao-proxima').addEventListener('click', function () {
-  paginaAtual = paginaAtual + 1;
-  carregarProdutos();
-});
+async function iniciar() {
+  usuarioAtual = await sessao();
+  if (!usuarioAtual) return;
+  document.getElementById('produto').addEventListener('submit', evento => {
+    const dados = dadosFormulario(evento.currentTarget);
+    const id = document.getElementById('produto-id').value;
+    enviarFormulario(evento, async () => {
+      await api('/produtos' + (id ? '/' + id : ''), {
+        method: id ? 'PUT' : 'POST', body: JSON.stringify(dados),
+      });
+      cancelarEdicao();
+      await carregar();
+      mensagem(id ? 'Produto atualizado.' : 'Produto cadastrado.');
+    });
+  });
+  document.getElementById('cancelar').addEventListener('click', cancelarEdicao);
+  document.getElementById('filtro').addEventListener('submit', evento => {
+    evento.preventDefault();
+    filtros = dadosFormulario(evento.currentTarget);
+    pagina = 1;
+    carregar().catch(erro => mensagem(erro.message, true));
+  });
+  document.getElementById('limpar').addEventListener('click', () => {
+    document.getElementById('filtro').reset();
+    filtros = {};
+    pagina = 1;
+    carregar().catch(erro => mensagem(erro.message, true));
+  });
+  document.getElementById('anterior').addEventListener('click', () => mudarPagina(-1));
+  document.getElementById('proxima').addEventListener('click', () => mudarPagina(1));
+  await carregar();
+}
 
-if (protegerPagina()) carregarProdutos();
+iniciar().catch(erro => mensagem(erro.message, true));

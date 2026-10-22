@@ -1,0 +1,35 @@
+{
+  "id": 9,
+  "titulo": "Token inválido ou expirado",
+  "dados": "Token inválido e token assinado com expiração passada.",
+  "passos": "Consultar produtos com cada token.",
+  "esperado": "HTTP 401 para ambos.",
+  "inicio": "2026-10-22T11:40:10.804Z",
+  "evidencias": [
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "GET",
+        "rota": "/produtos",
+        "status": 401,
+        "resposta": {
+          "mensagem": "Token inválido ou expirado"
+        }
+      }
+    },
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "GET",
+        "rota": "/produtos",
+        "status": 401,
+        "resposta": {
+          "mensagem": "Token inválido ou expirado"
+        }
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:10.834Z"
+}

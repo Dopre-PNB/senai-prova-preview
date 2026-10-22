@@ -1,95 +1,72 @@
-let produtos = [];
-
-async function carregarProdutosNaLista() {
-  try {
-    const resposta = await fetch('/produtos?limite=100', {
-      headers: { 'Authorization': 'Bearer ' + pegarToken() },
-    });
-    if (tratarSessaoExpirada(resposta)) return;
-    const dados = await resposta.json();
-    if (!resposta.ok) {
-      mostrarMensagem(dados.mensagem || dados.erro, 'erro');
-      return;
-    }
-    produtos = dados;
-    const lista = document.getElementById('produto_id');
-    lista.innerHTML = '<option value="">Selecione um produto</option>';
-    produtos.forEach(function (produto) {
-      lista.innerHTML += `<option value="${produto.id}">${protegerTexto(produto.nome)} (estoque: ${produto.quantidade_estoque})</option>`;
-    });
-  } catch (erro) {
-    mostrarMensagem('Não foi possível conectar ao servidor.', 'erro');
+async function carregarProdutos() {
+  const select = document.getElementById('produto-id');
+  const selecionado = select.value;
+  const produtos = [];
+  let pagina = 1;
+  let lote;
+  do {
+    lote = await api('/produtos?pagina=' + pagina + '&limite=100');
+    produtos.push(...lote);
+    pagina++;
+  } while (lote.length === 100);
+  select.replaceChildren();
+  const vazio = document.createElement('option');
+  vazio.value = '';
+  vazio.textContent = produtos.length ? 'Selecione um produto' : 'Nenhum produto cadastrado';
+  select.appendChild(vazio);
+  for (const produto of produtos) {
+    const opcao = document.createElement('option');
+    opcao.value = produto.id;
+    opcao.textContent = produto.nome + ' (saldo: ' + produto.quantidade_estoque + ')';
+    select.appendChild(opcao);
   }
+  select.value = selecionado;
+  document.getElementById('registrar').disabled = !produtos.length;
 }
 
 async function carregarHistorico() {
-  try {
-    const resposta = await fetch('/movimentacoes', {
-      headers: { 'Authorization': 'Bearer ' + pegarToken() },
-    });
-    if (tratarSessaoExpirada(resposta)) return;
-    const dados = await resposta.json();
-    if (!resposta.ok) {
-      mostrarMensagem(dados.mensagem || dados.erro, 'erro');
-      return;
-    }
-    const tabela = document.getElementById('lista-movimentacoes');
-    tabela.innerHTML = '';
-    if (dados.length === 0) {
-      tabela.innerHTML = '<tr><td colspan="4">Nenhuma movimentação registrada.</td></tr>';
-    }
-    dados.forEach(function (mov) {
-      const produto = produtos.find(function (p) { return p.id === mov.produto_id; });
-      const nome = produto ? produto.nome : (mov.produto_id ? 'Produto nº ' + mov.produto_id : 'Produto excluído');
-      const data = new Date(mov.createdAt).toLocaleDateString('pt-BR');
-      const textoTipo = mov.tipo === 'entrada' ? 'Entrada' : 'Saída';
-      tabela.innerHTML += `
-        <tr>
-          <td>${data}</td>
-          <td>${protegerTexto(nome)}</td>
-          <td><span class="etiqueta ${mov.tipo}">${textoTipo}</span></td>
-          <td>${mov.quantidade}</td>
-        </tr>`;
-    });
-  } catch (erro) {
-    mostrarMensagem('Não foi possível conectar ao servidor.', 'erro');
+  const movimentacoes = await api('/movimentacoes');
+  const lista = document.getElementById('lista');
+  lista.replaceChildren();
+  for (const movimento of movimentacoes) {
+    const linha = document.createElement('tr');
+    celula(linha, movimento.id);
+    celula(linha, dataHora(movimento.data || movimento.createdAt));
+    celula(linha, movimento.Produto?.nome || 'Produto ' + movimento.produto_id);
+    celula(linha, movimento.tipo === 'saida' ? 'Saída' : 'Entrada');
+    celula(linha, movimento.quantidade);
+    celula(linha, movimento.Usuario?.nome || 'Usuário ' + movimento.usuario_id);
+    lista.appendChild(linha);
   }
+  if (!movimentacoes.length) {
+    const linha = document.createElement('tr');
+    celula(linha, 'Nenhuma movimentação registrada.').colSpan = 6;
+    lista.appendChild(linha);
+  }
+}
+
+async function atualizar() {
+  await Promise.all([carregarProdutos(), carregarHistorico()]);
 }
 
 async function iniciar() {
-  await carregarProdutosNaLista();
-  if (pegarToken()) await carregarHistorico();
+  const usuario = await sessao();
+  if (!usuario) return;
+  document.getElementById('movimentacao').addEventListener('submit', evento => {
+    const dados = dadosFormulario(evento.currentTarget);
+    dados.produto_id = Number(dados.produto_id);
+    dados.quantidade = Number(dados.quantidade);
+    enviarFormulario(evento, async () => {
+      const resultado = await api('/movimentacoes', { method: 'POST', body: JSON.stringify(dados) });
+      document.getElementById('quantidade').value = '';
+      await atualizar();
+      mensagem('Movimentação registrada. Saldo atual: ' + resultado.quantidade_estoque + '.');
+    });
+  });
+  document.getElementById('atualizar').addEventListener('click', () => {
+    atualizar().catch(erro => mensagem(erro.message, true));
+  });
+  await atualizar();
 }
 
-const formMovimentacao = document.getElementById('form-movimentacao');
-formMovimentacao.addEventListener('submit', async function (evento) {
-  evento.preventDefault();
-  const movimentacao = {
-    produto_id: Number(document.getElementById('produto_id').value),
-    tipo: document.getElementById('tipo').value,
-    quantidade: Number(document.getElementById('quantidade').value),
-  };
-  try {
-    const resposta = await fetch('/movimentacoes', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + pegarToken(),
-      },
-      body: JSON.stringify(movimentacao),
-    });
-    if (tratarSessaoExpirada(resposta)) return;
-    const dados = await resposta.json();
-    if (resposta.ok) {
-      mostrarMensagem('Movimentação registrada com sucesso!', 'sucesso');
-      formMovimentacao.reset();
-      iniciar();
-    } else {
-      mostrarMensagem(dados.mensagem || dados.erro, 'erro');
-    }
-  } catch (erro) {
-    mostrarMensagem('Não foi possível conectar ao servidor.', 'erro');
-  }
-});
-
-if (protegerPagina()) iniciar();
+iniciar().catch(erro => mensagem(erro.message, true));

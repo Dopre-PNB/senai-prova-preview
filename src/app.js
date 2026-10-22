@@ -24,7 +24,7 @@ if (require.main === module) {
     await sequelize.authenticate();
     console.log('Conectado ao banco de dados');
     await sequelize.sync();
-    const porta = Number(process.env.PORT || 3000);
+    const porta = Number(process.env.PORT || 3001);
     app.listen(porta, () => console.log(`Servidor rodando na porta ${porta}`));
   })().catch((erro) => {
     console.error('Não foi possível iniciar o servidor:', erro.message);

@@ -1,0 +1,43 @@
+{
+  "id": 4,
+  "titulo": "Saída com estoque zerado",
+  "dados": "Saldo zero, saída 1, operador autenticado.",
+  "passos": "Registrar saída e consultar o banco.",
+  "esperado": "HTTP 400; mensagem informa disponível zero e solicitado 1; saldo zero e nenhum registro.",
+  "inicio": "2026-10-22T11:40:10.433Z",
+  "evidencias": [
+    {
+      "nome": "Antes",
+      "dados": {
+        "saldo": 0,
+        "movimentacoes": []
+      }
+    },
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "POST",
+        "rota": "/movimentacoes",
+        "corpo": {
+          "produto_id": 4,
+          "tipo": "saida",
+          "quantidade": 1
+        },
+        "status": 400,
+        "resposta": {
+          "mensagem": "Saída não permitida: estoque insuficiente. Disponível: 0. Solicitado: 1."
+        }
+      }
+    },
+    {
+      "nome": "Depois (MySQL)",
+      "dados": {
+        "saldo": 0,
+        "movimentacoes": []
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:10.462Z"
+}

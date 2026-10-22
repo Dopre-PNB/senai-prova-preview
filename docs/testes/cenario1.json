@@ -1,0 +1,43 @@
+{
+  "id": 1,
+  "titulo": "Saída acima do saldo",
+  "dados": "Saldo 10, saída 11, operador autenticado.",
+  "passos": "Registrar saída e consultar produto e movimentações no banco.",
+  "esperado": "HTTP 400; mensagem informa disponível 10 e solicitado 11; saldo continua 10; nenhum registro de saída.",
+  "inicio": "2026-10-22T11:40:10.219Z",
+  "evidencias": [
+    {
+      "nome": "Antes",
+      "dados": {
+        "saldo": 10,
+        "movimentacoes": []
+      }
+    },
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "POST",
+        "rota": "/movimentacoes",
+        "corpo": {
+          "produto_id": 1,
+          "tipo": "saida",
+          "quantidade": 11
+        },
+        "status": 400,
+        "resposta": {
+          "mensagem": "Saída não permitida: estoque insuficiente. Disponível: 10. Solicitado: 11."
+        }
+      }
+    },
+    {
+      "nome": "Depois (MySQL)",
+      "dados": {
+        "saldo": 10,
+        "movimentacoes": []
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:10.328Z"
+}

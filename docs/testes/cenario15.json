@@ -1,0 +1,43 @@
+{
+  "id": 15,
+  "titulo": "Quantidade zero",
+  "dados": "Saldo 10, saída de quantidade zero.",
+  "passos": "Registrar saída e consultar o banco.",
+  "esperado": "HTTP 400; saldo 10; nenhum registro.",
+  "inicio": "2026-10-22T11:40:11.663Z",
+  "evidencias": [
+    {
+      "nome": "Antes",
+      "dados": {
+        "saldo": 10,
+        "movimentacoes": []
+      }
+    },
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "POST",
+        "rota": "/movimentacoes",
+        "corpo": {
+          "produto_id": 8,
+          "tipo": "saida",
+          "quantidade": 0
+        },
+        "status": 400,
+        "resposta": {
+          "mensagem": "Quantidade deve ser um número inteiro maior que zero"
+        }
+      }
+    },
+    {
+      "nome": "Depois (MySQL)",
+      "dados": {
+        "saldo": 10,
+        "movimentacoes": []
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:11.695Z"
+}

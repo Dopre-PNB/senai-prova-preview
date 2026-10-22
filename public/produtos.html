@@ -2,59 +2,49 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Produtos | 📦 Estoque Braga</title>
-  <link rel="stylesheet" href="css/estilo.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Produtos - Almoxarifado</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+  <script src="/js/comum.js" defer></script>
+  <script src="/js/produtos.js" defer></script>
 </head>
-<body>
-  <header class="cabecalho">
-    <div class="logo">📦 Estoque Braga</div>
-    <nav class="menu">
-      <a href="painel.html">Painel</a>
-      <a href="produtos.html" class="ativo">Produtos</a>
-      <a href="movimentacoes.html">Movimentações</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="index.html" id="link-sair">Sair</a>
-    </nav>
-  </header>
-  <main>
-    <h1>Produtos</h1>
-    <section class="cartao">
-      <h2>Cadastrar novo produto</h2>
-      <form id="form-produto">
-        <label for="nome">Nome</label>
-        <input type="text" id="nome" placeholder="Ex.: Caderno" required>
-        <label for="descricao">Descrição</label>
-        <input type="text" id="descricao" placeholder="Ex.: Caderno de 100 folhas" required>
-        <label for="quantidade_estoque">Quantidade em estoque</label>
-        <input type="number" id="quantidade_estoque" min="0" value="0">
-        <button type="submit" class="botao">Cadastrar</button>
-      </form>
-      <p id="mensagem" class="mensagem"></p>
-    </section>
-    <section class="cartao">
-      <h2>Produtos cadastrados</h2>
-      <div class="linha-busca">
-        <input type="text" id="busca-nome" placeholder="Buscar pelo nome..." aria-label="Buscar pelo nome">
-        <button type="button" id="botao-buscar" class="botao botao-secundario">Buscar</button>
-      </div>
-      <div class="tabela-rolagem">
-        <table>
-          <thead>
-            <tr><th>ID</th><th>Nome</th><th>Descrição</th><th>Estoque</th><th>Ações</th></tr>
-          </thead>
-          <tbody id="lista-produtos"></tbody>
-        </table>
-      </div>
-      <div class="paginacao">
-        <button type="button" id="botao-anterior" class="botao botao-pequeno">Anterior</button>
-        <span>Página <strong id="numero-pagina">1</strong></span>
-        <button type="button" id="botao-proxima" class="botao botao-pequeno">Próxima</button>
-      </div>
-    </section>
-  </main>
-  <footer class="rodape">Estoque Braga © 2026 | Pedro do Nascimento Braga | Turma 996</footer>
-  <script src="js/comum.js"></script>
-  <script src="js/produtos.js"></script>
-</body>
+<body><main>
+  <h1>Produtos</h1>
+  <nav aria-label="Menu">
+    <a href="/painel.html">Início</a>
+    <a href="/produtos.html">Produtos</a>
+    <a href="/movimentacoes.html">Movimentações</a>
+    <a href="/usuarios.html" data-admin hidden>Usuários</a>
+    <button id="sair" type="button">Sair</button>
+  </nav>
+  <p id="usuario"></p>
+  <h2 id="form-titulo">Cadastrar produto</h2>
+  <form id="produto">
+    <input id="produto-id" type="hidden">
+    <label for="nome">Nome</label>
+    <input id="nome" name="nome" maxlength="100" required>
+    <label for="descricao">Descrição</label>
+    <textarea id="descricao" name="descricao" required></textarea>
+    <p>O saldo começa em zero. Registre uma entrada na tela de movimentações.</p>
+    <button type="submit">Salvar produto</button>
+    <button id="cancelar" type="button" hidden>Cancelar edição</button>
+  </form>
+  <p id="mensagem" class="mensagem" role="status"></p>
+  <h2>Consultar produtos</h2>
+  <form id="filtro" class="linha">
+    <div><label for="filtro-nome">Nome</label><input id="filtro-nome" name="nome" type="search"></div>
+    <div><label for="filtro-data">Cadastrados a partir de</label><input id="filtro-data" name="data" type="date"></div>
+    <button type="submit">Buscar</button>
+    <button id="limpar" type="button">Limpar</button>
+  </form>
+  <div class="tabela">
+    <table>
+      <thead><tr><th>ID</th><th>Nome</th><th>Descrição</th><th>Saldo</th><th>Cadastro</th><th>Ações</th></tr></thead>
+      <tbody id="lista"></tbody>
+    </table>
+  </div>
+  <button id="anterior" type="button">Anterior</button>
+  <span id="pagina">Página 1</span>
+  <button id="proxima" type="button">Próxima</button>
+</main></body>
 </html>

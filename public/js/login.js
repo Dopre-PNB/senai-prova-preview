@@ -1,26 +1,24 @@
-if (pegarToken()) {
-  window.location.href = 'painel.html';
-}
+document.getElementById('login').addEventListener('submit', evento => {
+  const dados = dadosFormulario(evento.currentTarget);
+  enviarFormulario(evento, async () => {
+    const resultado = await api('/login', { method: 'POST', body: JSON.stringify(dados) });
+    sessionStorage.setItem('token', resultado.token);
+    location.href = '/painel.html';
+  });
+});
 
-const formLogin = document.getElementById('form-login');
-formLogin.addEventListener('submit', async function (evento) {
+document.getElementById('cadastro').addEventListener('submit', async evento => {
   evento.preventDefault();
-  const email = document.getElementById('email').value;
-  const senha = document.getElementById('senha').value;
+  const formulario = evento.currentTarget;
+  const botao = formulario.querySelector('button');
+  botao.disabled = true;
   try {
-    const resposta = await fetch('/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, senha }),
-    });
-    const dados = await resposta.json();
-    if (resposta.ok) {
-      localStorage.setItem('token', dados.token);
-      window.location.href = 'painel.html';
-    } else {
-      mostrarMensagem(dados.mensagem || dados.erro, 'erro');
-    }
+    await api('/usuarios', { method: 'POST', body: JSON.stringify(dadosFormulario(formulario)) });
+    formulario.reset();
+    mensagem('Operador cadastrado. Use o e-mail e a senha para entrar.', false, 'cadastro-mensagem');
   } catch (erro) {
-    mostrarMensagem('Não foi possível conectar ao servidor.', 'erro');
+    mensagem(erro.message, true, 'cadastro-mensagem');
+  } finally {
+    botao.disabled = false;
   }
 });

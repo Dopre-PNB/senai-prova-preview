@@ -1,13 +1,14 @@
 {
-  "name": "senai-controle-estoque",
+  "name": "prova-preview",
   "version": "1.0.0",
   "private": true,
-  "description": "Sistema de controle de estoque dos módulos 1 a 9 do SENAI",
+  "description": "Controle de almoxarifado",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
     "db:create": "node scripts/criar-banco.js",
-    "test": "node scripts/verificar.js"
+    "admin": "node scripts/criar-admin.js",
+    "test": "node scripts/testar.js"
   },
   "engines": {
     "node": ">=24"

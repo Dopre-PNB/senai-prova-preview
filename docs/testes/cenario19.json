@@ -1,0 +1,36 @@
+{
+  "id": 19,
+  "titulo": "Tipo de movimentação inválido",
+  "dados": "Saldo 10, tipo ajuste e quantidade 1.",
+  "passos": "Tentar registrar movimentação.",
+  "esperado": "HTTP 400; saldo e histórico inalterados.",
+  "inicio": "2026-10-22T11:40:11.825Z",
+  "evidencias": [
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "POST",
+        "rota": "/movimentacoes",
+        "corpo": {
+          "produto_id": 12,
+          "tipo": "ajuste",
+          "quantidade": 1
+        },
+        "status": 400,
+        "resposta": {
+          "mensagem": "Tipo de movimentação deve ser entrada ou saida"
+        }
+      }
+    },
+    {
+      "nome": "Depois (MySQL)",
+      "dados": {
+        "saldo": 10,
+        "movimentacoes": []
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:11.866Z"
+}

@@ -1,0 +1,131 @@
+{
+  "id": 26,
+  "titulo": "Histórico e campos sensíveis",
+  "dados": "Movimentação existente, operador autenticado.",
+  "passos": "Consultar histórico e conferir campos retornados.",
+  "esperado": "HTTP 200; produto, usuário, quantidade, tipo e data presentes; nenhuma senha ou token no histórico.",
+  "inicio": "2026-10-22T11:40:12.208Z",
+  "evidencias": [
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "GET",
+        "rota": "/movimentacoes",
+        "status": 200,
+        "resposta": [
+          {
+            "id": 6,
+            "tipo": "saida",
+            "quantidade": 1,
+            "data": "2026-10-22T11:40:12.000Z",
+            "createdAt": "2026-10-22T11:40:12.000Z",
+            "updatedAt": "2026-10-22T11:40:12.000Z",
+            "produto_id": 21,
+            "usuario_id": 2,
+            "Produto": {
+              "id": 21,
+              "nome": "Material de teste"
+            },
+            "Usuario": {
+              "id": 2,
+              "nome": "Operador de teste"
+            }
+          },
+          {
+            "id": 5,
+            "tipo": "saida",
+            "quantidade": 7,
+            "data": "2026-10-22T11:40:12.000Z",
+            "createdAt": "2026-10-22T11:40:12.000Z",
+            "updatedAt": "2026-10-22T11:40:12.000Z",
+            "produto_id": 20,
+            "usuario_id": 2,
+            "Produto": {
+              "id": 20,
+              "nome": "Material de teste"
+            },
+            "Usuario": {
+              "id": 2,
+              "nome": "Operador de teste"
+            }
+          },
+          {
+            "id": 4,
+            "tipo": "entrada",
+            "quantidade": 3,
+            "data": "2026-10-22T11:40:11.000Z",
+            "createdAt": "2026-10-22T11:40:11.000Z",
+            "updatedAt": "2026-10-22T11:40:11.000Z",
+            "produto_id": 11,
+            "usuario_id": 2,
+            "Produto": {
+              "id": 11,
+              "nome": "Material de teste"
+            },
+            "Usuario": {
+              "id": 2,
+              "nome": "Operador de teste"
+            }
+          },
+          {
+            "id": 3,
+            "tipo": "saida",
+            "quantidade": 1,
+            "data": "2026-10-22T11:40:10.000Z",
+            "createdAt": "2026-10-22T11:40:10.000Z",
+            "updatedAt": "2026-10-22T11:40:10.000Z",
+            "produto_id": 6,
+            "usuario_id": 2,
+            "Produto": {
+              "id": 6,
+              "nome": "Material de teste"
+            },
+            "Usuario": {
+              "id": 2,
+              "nome": "Operador de teste"
+            }
+          },
+          {
+            "id": 2,
+            "tipo": "saida",
+            "quantidade": 10,
+            "data": "2026-10-22T11:40:10.000Z",
+            "createdAt": "2026-10-22T11:40:10.000Z",
+            "updatedAt": "2026-10-22T11:40:10.000Z",
+            "produto_id": 3,
+            "usuario_id": 2,
+            "Produto": {
+              "id": 3,
+              "nome": "Material de teste"
+            },
+            "Usuario": {
+              "id": 2,
+              "nome": "Operador de teste"
+            }
+          },
+          {
+            "id": 1,
+            "tipo": "saida",
+            "quantidade": 4,
+            "data": "2026-10-22T11:40:10.000Z",
+            "createdAt": "2026-10-22T11:40:10.000Z",
+            "updatedAt": "2026-10-22T11:40:10.000Z",
+            "produto_id": 2,
+            "usuario_id": 2,
+            "Produto": {
+              "id": 2,
+              "nome": "Material de teste"
+            },
+            "Usuario": {
+              "id": 2,
+              "nome": "Operador de teste"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:12.226Z"
+}

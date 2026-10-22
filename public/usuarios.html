@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Usuários - Almoxarifado</title>
+  <link rel="stylesheet" href="/css/estilo.css">
+  <script src="/js/comum.js" defer></script>
+  <script src="/js/usuarios.js" defer></script>
+</head>
+<body><main>
+  <h1>Usuários</h1>
+  <nav aria-label="Menu">
+    <a href="/painel.html">Início</a>
+    <a href="/produtos.html">Produtos</a>
+    <a href="/movimentacoes.html">Movimentações</a>
+    <a href="/usuarios.html" data-admin hidden>Usuários</a>
+    <button id="sair" type="button">Sair</button>
+  </nav>
+  <p id="usuario"></p>
+  <section id="gestao" hidden>
+    <h2 id="form-titulo">Cadastrar usuário</h2>
+    <form id="cadastro-usuario">
+      <input id="usuario-id" type="hidden">
+      <label for="nome">Nome</label>
+      <input id="nome" name="nome" maxlength="100" required>
+      <label for="email">E-mail</label>
+      <input id="email" name="email" type="email" required>
+      <label for="senha">Senha (na edição, deixe em branco para manter)</label>
+      <input id="senha" name="senha" type="password" autocomplete="new-password" minlength="6" required>
+      <div id="tipo-edicao" hidden>
+        <label for="tipo">Perfil</label>
+        <select id="tipo" name="tipo"><option value="operador">Operador</option><option value="administrador">Administrador</option></select>
+      </div>
+      <p>Novos cadastros recebem o perfil de operador.</p>
+      <button type="submit">Salvar usuário</button>
+      <button id="cancelar" type="button" hidden>Cancelar edição</button>
+    </form>
+    <h2>Usuários cadastrados</h2>
+    <div class="tabela">
+      <table><thead><tr><th>ID</th><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Ações</th></tr></thead><tbody id="lista"></tbody></table>
+    </div>
+  </section>
+  <p id="mensagem" class="mensagem" role="status"></p>
+</main></body>
+</html>

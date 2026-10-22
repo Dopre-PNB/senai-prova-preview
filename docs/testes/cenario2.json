@@ -1,0 +1,62 @@
+{
+  "id": 2,
+  "titulo": "Saída abaixo do saldo",
+  "dados": "Saldo 10, saída 4, operador autenticado.",
+  "passos": "Registrar saída e consultar produto e movimentação no banco.",
+  "esperado": "HTTP 201; saldo 6; registro com quantidade 4, data/hora atual e operador responsável.",
+  "inicio": "2026-10-22T11:40:10.329Z",
+  "evidencias": [
+    {
+      "nome": "Antes",
+      "dados": {
+        "saldo": 10,
+        "movimentacoes": []
+      }
+    },
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "POST",
+        "rota": "/movimentacoes",
+        "corpo": {
+          "produto_id": 2,
+          "tipo": "saida",
+          "quantidade": 4
+        },
+        "status": 201,
+        "resposta": {
+          "data": "2026-10-22T11:40:10.354Z",
+          "id": 1,
+          "produto_id": 2,
+          "usuario_id": 2,
+          "tipo": "saida",
+          "quantidade": 4,
+          "updatedAt": "2026-10-22T11:40:10.354Z",
+          "createdAt": "2026-10-22T11:40:10.354Z",
+          "quantidade_estoque": 6
+        }
+      }
+    },
+    {
+      "nome": "Depois (MySQL)",
+      "dados": {
+        "saldo": 6,
+        "movimentacoes": [
+          {
+            "id": 1,
+            "tipo": "saida",
+            "quantidade": 4,
+            "data": "2026-10-22T11:40:10.000Z",
+            "createdAt": "2026-10-22T11:40:10.000Z",
+            "updatedAt": "2026-10-22T11:40:10.000Z",
+            "produto_id": 2,
+            "usuario_id": 2
+          }
+        ]
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:10.377Z"
+}

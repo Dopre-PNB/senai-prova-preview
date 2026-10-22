@@ -1,0 +1,117 @@
+{
+  "id": 13,
+  "titulo": "Gestão de usuários pelo administrador",
+  "dados": "Usuário fictício sem movimentações.",
+  "passos": "Administrador lista, altera perfil e exclui o usuário; operador tenta listar usuários.",
+  "esperado": "Administrador recebe 200; operador recebe 403; usuário excluído perde acesso com token anterior.",
+  "inicio": "2026-10-22T11:40:11.337Z",
+  "evidencias": [
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "POST",
+        "rota": "/usuarios",
+        "corpo": {
+          "nome": "Usuário para gestão",
+          "email": "gestao@teste.local",
+          "senha": "[omitido]"
+        },
+        "status": 201,
+        "resposta": {
+          "id": 4,
+          "nome": "Usuário para gestão",
+          "email": "gestao@teste.local",
+          "tipo": "operador"
+        }
+      }
+    },
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "GET",
+        "rota": "/usuarios",
+        "status": 200,
+        "resposta": [
+          {
+            "id": 1,
+            "nome": "Administrador de teste",
+            "email": "admin@teste.local",
+            "tipo": "administrador"
+          },
+          {
+            "id": 2,
+            "nome": "Operador de teste",
+            "email": "operador@teste.local",
+            "tipo": "operador"
+          },
+          {
+            "id": 3,
+            "nome": "Cadastro de teste",
+            "email": "cadastro@teste.local",
+            "tipo": "operador"
+          },
+          {
+            "id": 4,
+            "nome": "Usuário para gestão",
+            "email": "gestao@teste.local",
+            "tipo": "operador"
+          }
+        ]
+      }
+    },
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "GET",
+        "rota": "/usuarios",
+        "status": 403,
+        "resposta": {
+          "mensagem": "Sem permissão para essa ação"
+        }
+      }
+    },
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "PUT",
+        "rota": "/usuarios/4",
+        "corpo": {
+          "nome": "Usuário alterado",
+          "tipo": "administrador"
+        },
+        "status": 200,
+        "resposta": {
+          "id": 4,
+          "nome": "Usuário alterado",
+          "email": "gestao@teste.local",
+          "tipo": "administrador"
+        }
+      }
+    },
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "DELETE",
+        "rota": "/usuarios/4",
+        "status": 200,
+        "resposta": {
+          "mensagem": "Usuário removido com sucesso"
+        }
+      }
+    },
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "GET",
+        "rota": "/usuarios/me",
+        "status": 401,
+        "resposta": {
+          "mensagem": "Usuário não encontrado"
+        }
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:11.619Z"
+}

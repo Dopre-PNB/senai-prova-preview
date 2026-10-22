@@ -1,0 +1,43 @@
+{
+  "id": 16,
+  "titulo": "Quantidade negativa",
+  "dados": "Saldo 10, saída de quantidade -1.",
+  "passos": "Registrar saída e consultar o banco.",
+  "esperado": "HTTP 400; saldo 10; nenhum registro.",
+  "inicio": "2026-10-22T11:40:11.696Z",
+  "evidencias": [
+    {
+      "nome": "Antes",
+      "dados": {
+        "saldo": 10,
+        "movimentacoes": []
+      }
+    },
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "POST",
+        "rota": "/movimentacoes",
+        "corpo": {
+          "produto_id": 9,
+          "tipo": "saida",
+          "quantidade": -1
+        },
+        "status": 400,
+        "resposta": {
+          "mensagem": "Quantidade deve ser um número inteiro maior que zero"
+        }
+      }
+    },
+    {
+      "nome": "Depois (MySQL)",
+      "dados": {
+        "saldo": 10,
+        "movimentacoes": []
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:11.726Z"
+}

@@ -1,0 +1,41 @@
+{
+  "id": 14,
+  "titulo": "Operador não eleva privilégios",
+  "dados": "Operador tenta se tornar administrador e alterar outro usuário.",
+  "passos": "Enviar PUT /usuarios/:id com perfil administrador e alteração de outro usuário.",
+  "esperado": "HTTP 403; perfil e usuário alheio permanecem iguais.",
+  "inicio": "2026-10-22T11:40:11.620Z",
+  "evidencias": [
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "PUT",
+        "rota": "/usuarios/2",
+        "corpo": {
+          "tipo": "administrador"
+        },
+        "status": 403,
+        "resposta": {
+          "mensagem": "Somente o administrador pode alterar perfis"
+        }
+      }
+    },
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "PUT",
+        "rota": "/usuarios/1",
+        "corpo": {
+          "nome": "Nome indevido"
+        },
+        "status": 403,
+        "resposta": {
+          "mensagem": "Sem permissão para essa ação"
+        }
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:11.663Z"
+}

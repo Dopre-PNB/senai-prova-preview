@@ -1,0 +1,32 @@
+{
+  "id": 23,
+  "titulo": "Filtro por data",
+  "dados": "Dois produtos: cadastro em 2020 e em 2026; filtro data=2026-01-01.",
+  "passos": "Consultar pelo prefixo e pela data.",
+  "esperado": "HTTP 200; apenas o produto de 2026.",
+  "inicio": "2026-10-22T11:40:12.056Z",
+  "evidencias": [
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "GET",
+        "rota": "/produtos?nome=FiltroData&data=2026-01-01",
+        "status": 200,
+        "resposta": [
+          {
+            "id": 19,
+            "nome": "FiltroData recente",
+            "descricao": "Produto fictício para teste",
+            "quantidade_estoque": 10,
+            "createdAt": "2026-06-01T12:00:00.000Z",
+            "updatedAt": "2026-10-22T11:40:12.000Z",
+            "deletedAt": null
+          }
+        ]
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:12.103Z"
+}

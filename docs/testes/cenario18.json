@@ -1,0 +1,55 @@
+{
+  "id": 18,
+  "titulo": "Entrada atualiza o saldo",
+  "dados": "Saldo 10, entrada de 3.",
+  "passos": "Registrar entrada e consultar o banco.",
+  "esperado": "HTTP 201; saldo 13; entrada com data e responsável.",
+  "inicio": "2026-10-22T11:40:11.773Z",
+  "evidencias": [
+    {
+      "nome": "HTTP",
+      "dados": {
+        "metodo": "POST",
+        "rota": "/movimentacoes",
+        "corpo": {
+          "produto_id": 11,
+          "tipo": "entrada",
+          "quantidade": 3
+        },
+        "status": 201,
+        "resposta": {
+          "data": "2026-10-22T11:40:11.805Z",
+          "id": 4,
+          "produto_id": 11,
+          "usuario_id": 2,
+          "tipo": "entrada",
+          "quantidade": 3,
+          "updatedAt": "2026-10-22T11:40:11.805Z",
+          "createdAt": "2026-10-22T11:40:11.805Z",
+          "quantidade_estoque": 13
+        }
+      }
+    },
+    {
+      "nome": "Depois (MySQL)",
+      "dados": {
+        "saldo": 13,
+        "movimentacoes": [
+          {
+            "id": 4,
+            "tipo": "entrada",
+            "quantidade": 3,
+            "data": "2026-10-22T11:40:11.000Z",
+            "createdAt": "2026-10-22T11:40:11.000Z",
+            "updatedAt": "2026-10-22T11:40:11.000Z",
+            "produto_id": 11,
+            "usuario_id": 2
+          }
+        ]
+      }
+    }
+  ],
+  "status": "aprovado",
+  "conclusao": "Resultado obtido atende ao esperado.",
+  "fim": "2026-10-22T11:40:11.825Z"
+}

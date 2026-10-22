@@ -27,7 +27,7 @@ async function listar() {
     order: [['id', 'DESC']],
     include: [
       { model: Produto, attributes: ['id', 'nome'], paranoid: false },
-      { model: Usuario, attributes: ['id', 'nome'], paranoid: false },
+      { model: Usuario, attributes: ['id', 'nome'] },
     ],
   });
 }

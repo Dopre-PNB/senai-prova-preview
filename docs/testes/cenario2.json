@@ -1,62 +1,45 @@
 {
   "id": 2,
   "titulo": "Saída abaixo do saldo",
-  "dados": "Saldo 10, saída 4, operador autenticado.",
-  "passos": "Registrar saída e consultar produto e movimentação no banco.",
-  "esperado": "HTTP 201; saldo 6; registro com quantidade 4, data/hora atual e operador responsável.",
-  "inicio": "2026-10-22T11:40:10.329Z",
-  "evidencias": [
+  "dadosUsados": {
+    "produto_id": 2,
+    "saldo": 10,
+    "tipo": "saida",
+    "quantidade": 4,
+    "usuario_id": 2
+  },
+  "esperado": "Registrar a saída de 4, atualizar o saldo para 6 e guardar data e responsável.",
+  "statusHTTP": 201,
+  "resposta": {
+    "data": "2026-10-22T12:07:06.400Z",
+    "id": 1,
+    "produto_id": 2,
+    "usuario_id": 2,
+    "tipo": "saida",
+    "quantidade": 4,
+    "updatedAt": "2026-10-22T12:07:06.400Z",
+    "createdAt": "2026-10-22T12:07:06.400Z",
+    "quantidade_estoque": 6
+  },
+  "saldoAntes": 10,
+  "saldoDepois": 6,
+  "movimentacoes": [
     {
-      "nome": "Antes",
-      "dados": {
-        "saldo": 10,
-        "movimentacoes": []
-      }
-    },
-    {
-      "nome": "HTTP",
-      "dados": {
-        "metodo": "POST",
-        "rota": "/movimentacoes",
-        "corpo": {
-          "produto_id": 2,
-          "tipo": "saida",
-          "quantidade": 4
-        },
-        "status": 201,
-        "resposta": {
-          "data": "2026-10-22T11:40:10.354Z",
-          "id": 1,
-          "produto_id": 2,
-          "usuario_id": 2,
-          "tipo": "saida",
-          "quantidade": 4,
-          "updatedAt": "2026-10-22T11:40:10.354Z",
-          "createdAt": "2026-10-22T11:40:10.354Z",
-          "quantidade_estoque": 6
-        }
-      }
-    },
-    {
-      "nome": "Depois (MySQL)",
-      "dados": {
-        "saldo": 6,
-        "movimentacoes": [
-          {
-            "id": 1,
-            "tipo": "saida",
-            "quantidade": 4,
-            "data": "2026-10-22T11:40:10.000Z",
-            "createdAt": "2026-10-22T11:40:10.000Z",
-            "updatedAt": "2026-10-22T11:40:10.000Z",
-            "produto_id": 2,
-            "usuario_id": 2
-          }
-        ]
-      }
+      "id": 1,
+      "produto_id": 2,
+      "usuario_id": 2,
+      "tipo": "saida",
+      "quantidade": 4,
+      "data": "2026-10-22T12:07:06.000Z"
     }
   ],
-  "status": "aprovado",
-  "conclusao": "Resultado obtido atende ao esperado.",
-  "fim": "2026-10-22T11:40:10.377Z"
+  "dataExecucao": "2026-10-22T12:07:06.433Z",
+  "fuso": "America/Sao_Paulo",
+  "bancoTeste": "senai_estoque_preview_test_1792670824335_62a229",
+  "plano": {
+    "arquivo": "docs/plano_testes.docx",
+    "sha256": "67d980029da76c7efd4b5a03cf6c9022fb60242a2a2aefa667ea0cd727f0f3ad",
+    "lidoAntesDaExecucao": true
+  },
+  "conclusao": "Aprovado. Resultado obtido atende ao esperado."
 }

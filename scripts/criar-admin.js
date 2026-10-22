@@ -11,8 +11,8 @@ async function executar() {
   }
   await sequelize.authenticate();
   await sequelize.sync();
-  if (await Usuario.findOne({ where: { email }, paranoid: false })) {
-    throw new Error('Email já cadastrado; use outro email ou gerencie o usuário existente');
+  if (await Usuario.findOne({ where: { email } })) {
+    throw new Error('Email já cadastrado; use outro email');
   }
   await usuarioService.cadastrar({ nome: process.env.ADMIN_NOME || 'Administrador', email, senha: process.env.ADMIN_SENHA }, 'administrador');
   console.log('Administrador cadastrado.');

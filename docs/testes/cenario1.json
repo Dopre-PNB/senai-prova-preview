@@ -1,43 +1,28 @@
 {
   "id": 1,
   "titulo": "Saída acima do saldo",
-  "dados": "Saldo 10, saída 11, operador autenticado.",
-  "passos": "Registrar saída e consultar produto e movimentações no banco.",
-  "esperado": "HTTP 400; mensagem informa disponível 10 e solicitado 11; saldo continua 10; nenhum registro de saída.",
-  "inicio": "2026-10-22T11:40:10.219Z",
-  "evidencias": [
-    {
-      "nome": "Antes",
-      "dados": {
-        "saldo": 10,
-        "movimentacoes": []
-      }
-    },
-    {
-      "nome": "HTTP",
-      "dados": {
-        "metodo": "POST",
-        "rota": "/movimentacoes",
-        "corpo": {
-          "produto_id": 1,
-          "tipo": "saida",
-          "quantidade": 11
-        },
-        "status": 400,
-        "resposta": {
-          "mensagem": "Saída não permitida: estoque insuficiente. Disponível: 10. Solicitado: 11."
-        }
-      }
-    },
-    {
-      "nome": "Depois (MySQL)",
-      "dados": {
-        "saldo": 10,
-        "movimentacoes": []
-      }
-    }
-  ],
-  "status": "aprovado",
-  "conclusao": "Resultado obtido atende ao esperado.",
-  "fim": "2026-10-22T11:40:10.328Z"
+  "dadosUsados": {
+    "produto_id": 1,
+    "saldo": 10,
+    "tipo": "saida",
+    "quantidade": 11,
+    "usuario_id": 2
+  },
+  "esperado": "Bloquear a saída, informar disponível 10 e solicitado 11, manter saldo 10 e não criar movimentação.",
+  "statusHTTP": 400,
+  "resposta": {
+    "mensagem": "Saída não permitida: estoque insuficiente. Disponível: 10. Solicitado: 11."
+  },
+  "saldoAntes": 10,
+  "saldoDepois": 10,
+  "movimentacoes": [],
+  "dataExecucao": "2026-10-22T12:07:06.370Z",
+  "fuso": "America/Sao_Paulo",
+  "bancoTeste": "senai_estoque_preview_test_1792670824335_62a229",
+  "plano": {
+    "arquivo": "docs/plano_testes.docx",
+    "sha256": "67d980029da76c7efd4b5a03cf6c9022fb60242a2a2aefa667ea0cd727f0f3ad",
+    "lidoAntesDaExecucao": true
+  },
+  "conclusao": "Aprovado. Resultado obtido atende ao esperado."
 }

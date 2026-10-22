@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const Usuario = require('../models/Usuario');
-const { falhar, texto, inteiroPositivo } = require('./validacao');
+const { falhar, texto } = require('./validacao');
 const campos = ['id', 'nome', 'email', 'tipo'];
 
 function emailValido(valor) {
@@ -21,6 +21,7 @@ function semSenha(usuario) {
 }
 
 async function cadastrar(dados, tipo = 'operador') {
+  if (!['administrador', 'operador'].includes(tipo)) falhar(400, 'Perfil inválido');
   const usuario = await Usuario.create({
     nome: texto(dados.nome, 'Nome'),
     email: emailValido(dados.email),
@@ -30,36 +31,4 @@ async function cadastrar(dados, tipo = 'operador') {
   return semSenha(usuario);
 }
 
-async function listar() {
-  return Usuario.findAll({ attributes: campos, order: [['id', 'ASC']] });
-}
-
-async function atualizar(idRecebido, dados, responsavel) {
-  const id = inteiroPositivo(Number(idRecebido), 'ID do usuário');
-  if (responsavel.tipo !== 'administrador' && responsavel.id !== id) falhar(403, 'Sem permissão para essa ação');
-  const usuario = await Usuario.findByPk(id);
-  if (!usuario) falhar(404, 'Usuário não encontrado');
-  const alteracoes = {};
-  if (dados.nome !== undefined) alteracoes.nome = texto(dados.nome, 'Nome');
-  if (dados.email !== undefined) alteracoes.email = emailValido(dados.email);
-  if (dados.senha !== undefined) alteracoes.senha = await senhaSegura(dados.senha);
-  if (dados.tipo !== undefined) {
-    if (responsavel.tipo !== 'administrador') falhar(403, 'Somente o administrador pode alterar perfis');
-    if (!['administrador', 'operador'].includes(dados.tipo)) falhar(400, 'Perfil inválido');
-    if (id === responsavel.id && dados.tipo !== 'administrador') falhar(400, 'Não é possível remover seu próprio acesso de administrador');
-    alteracoes.tipo = dados.tipo;
-  }
-  await usuario.update(alteracoes);
-  return semSenha(usuario);
-}
-
-async function deletar(idRecebido, responsavel) {
-  const id = inteiroPositivo(Number(idRecebido), 'ID do usuário');
-  if (id === responsavel.id) falhar(400, 'Não é possível excluir seu próprio usuário');
-  const usuario = await Usuario.findByPk(id);
-  if (!usuario) falhar(404, 'Usuário não encontrado');
-  await usuario.destroy();
-  return { mensagem: 'Usuário removido com sucesso' };
-}
-
-module.exports = { cadastrar, listar, atualizar, deletar };
+module.exports = { cadastrar };

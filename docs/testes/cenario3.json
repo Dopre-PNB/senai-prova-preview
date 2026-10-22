@@ -1,0 +1,45 @@
+{
+  "id": 3,
+  "titulo": "Saída igual ao saldo",
+  "dadosUsados": {
+    "produto_id": 3,
+    "saldo": 10,
+    "tipo": "saida",
+    "quantidade": 10,
+    "usuario_id": 2
+  },
+  "esperado": "Registrar a saída de 10, atualizar o saldo para zero e guardar data e responsável.",
+  "statusHTTP": 201,
+  "resposta": {
+    "data": "2026-10-22T12:07:06.478Z",
+    "id": 2,
+    "produto_id": 3,
+    "usuario_id": 2,
+    "tipo": "saida",
+    "quantidade": 10,
+    "updatedAt": "2026-10-22T12:07:06.478Z",
+    "createdAt": "2026-10-22T12:07:06.478Z",
+    "quantidade_estoque": 0
+  },
+  "saldoAntes": 10,
+  "saldoDepois": 0,
+  "movimentacoes": [
+    {
+      "id": 2,
+      "produto_id": 3,
+      "usuario_id": 2,
+      "tipo": "saida",
+      "quantidade": 10,
+      "data": "2026-10-22T12:07:06.000Z"
+    }
+  ],
+  "dataExecucao": "2026-10-22T12:07:06.507Z",
+  "fuso": "America/Sao_Paulo",
+  "bancoTeste": "senai_estoque_preview_test_1792670824335_62a229",
+  "plano": {
+    "arquivo": "docs/plano_testes.docx",
+    "sha256": "67d980029da76c7efd4b5a03cf6c9022fb60242a2a2aefa667ea0cd727f0f3ad",
+    "lidoAntesDaExecucao": true
+  },
+  "conclusao": "Aprovado. Resultado obtido atende ao esperado."
+}

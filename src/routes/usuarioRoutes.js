@@ -1,7 +1,9 @@
 const express = require('express');
-const usuarioController = require('../controllers/usuarioController');
+const controller = require('../controllers/usuarioController');
+const autenticar = require('../middlewares/auth');
+const permitir = require('../middlewares/checkRole');
 
 const router = express.Router();
-router.post('/usuarios', usuarioController.cadastrar);
+router.post('/usuarios', autenticar, permitir('administrador'), controller.cadastrar);
 
 module.exports = router;

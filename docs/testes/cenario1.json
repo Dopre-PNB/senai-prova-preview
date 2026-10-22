@@ -1,0 +1,28 @@
+{
+  "id": 1,
+  "titulo": "Saída acima do saldo",
+  "dadosUsados": {
+    "produto_id": 1,
+    "saldo": 10,
+    "tipo": "saida",
+    "quantidade": 11,
+    "usuario_id": 2
+  },
+  "esperado": "Bloquear a saída, informar disponível 10 e solicitado 11, manter saldo 10 e não criar movimentação.",
+  "statusHTTP": 400,
+  "resposta": {
+    "mensagem": "Saída não permitida: estoque insuficiente. Disponível: 10. Solicitado: 11."
+  },
+  "saldoAntes": 10,
+  "saldoDepois": 10,
+  "movimentacoes": [],
+  "dataExecucao": "2026-10-22T12:07:06.370Z",
+  "fuso": "America/Sao_Paulo",
+  "bancoTeste": "senai_estoque_preview_test_1792670824335_62a229",
+  "plano": {
+    "arquivo": "docs/plano_testes.docx",
+    "sha256": "67d980029da76c7efd4b5a03cf6c9022fb60242a2a2aefa667ea0cd727f0f3ad",
+    "lidoAntesDaExecucao": true
+  },
+  "conclusao": "Aprovado. Resultado obtido atende ao esperado."
+}

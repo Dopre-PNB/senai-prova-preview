@@ -10,6 +10,6 @@ const Produto = sequelize.define('Produto', {
     defaultValue: 0,
     validate: { isInt: true, min: 0 },
   },
-});
+}, { paranoid: true });
 
 module.exports = Produto;

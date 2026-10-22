@@ -1,6 +1,5 @@
 require('dotenv').config({ quiet: true });
 const express = require('express');
-const path = require('path');
 const sequelize = require('./config/database');
 const usuarioRoutes = require('./routes/usuarioRoutes');
 const authRoutes = require('./routes/authRoutes');
@@ -10,7 +9,6 @@ const tratarErros = require('./middlewares/erros');
 
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(usuarioRoutes);
 app.use(authRoutes);
 app.use(produtoRoutes);
@@ -24,7 +22,7 @@ if (require.main === module) {
     await sequelize.authenticate();
     console.log('Conectado ao banco de dados');
     await sequelize.sync();
-    const porta = Number(process.env.PORT || 3000);
+    const porta = Number(process.env.PORT || 3001);
     app.listen(porta, () => console.log(`Servidor rodando na porta ${porta}`));
   })().catch((erro) => {
     console.error('Não foi possível iniciar o servidor:', erro.message);

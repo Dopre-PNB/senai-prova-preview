@@ -21,7 +21,7 @@ npm start
 
 Abra http://localhost:3001. O comando `admin` cria o primeiro administrador e deve ser executado uma vez para cada email. Os demais usuários são cadastrados como operadores. O administrador pode alterar seus perfis na tela de usuários.
 
-Neste computador, o `.env` já está preenchido e o banco separado `senai_estoque_preview` está preparado na porta 3311. O acesso inicial é `admin@estoque.local`, com a senha indicada em `ADMIN_SENHA` no `.env`. Não substitua esse arquivo para usar a configuração já preparada. Há um produto de demonstração chamado Detergente, com saldo 10.
+Na cópia local usada para a verificação, o `.env` já está preenchido e há um produto de demonstração chamado Detergente, com saldo 10. Ao baixar o projeto em outro computador, configure seu próprio `.env` e crie o administrador com os comandos acima.
 
 ## Uso
 
@@ -98,6 +98,6 @@ Execução de 22/10/2026: 26 cenários aprovados, nenhuma falha ou bloqueio. Tam
 
 ## Versionamento
 
-O projeto está em um repositório local, na branch `pedro-braga`, criada a partir de `main`. Não há remoto configurado. O envio e o pull request ficam pendentes, conforme a orientação de manter tudo local.
+O desenvolvimento da prova está na branch `pedro-braga`, criada a partir de `main`. A branch `main` mantém a base do projeto anterior. A versão da prova inclui as telas básicas, o controle de estoque e os documentos de testes.
 
-Os 11 documentos originais de referência foram baixados e estão na pasta `referencias`, ao lado da pasta deste projeto.
+Os 11 documentos originais de referência foram baixados para consulta e permanecem na pasta local `referencias`, fora deste repositório.

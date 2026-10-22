@@ -6,7 +6,7 @@ Sistema de almoxarifado da situação-problema do PDF da prova. Implementa os pe
 
 | Entrega | Implementação |
 |---|---|
-| Versionamento | Branch `pedro-braga`, criada de `main`, e pull request para `main` |
+| Versionamento | Branch `pedro-braga`, criada de `main`, e pull request nº 1 concluído e integrado à `main` |
 | Arquitetura do sistema | Código separado em rotas, controladores, serviços, modelos e middlewares |
 | Usuários, perfis e segurança | Cadastro, autenticação, dois perfis e rotas privadas com controle de acesso |
 | Estoque | Produtos com paginação e filtros por nome e data; movimentações com atualização do saldo e bloqueio de saída acima do disponível |
@@ -76,4 +76,4 @@ O comando usa um banco de teste novo e dados fictícios. Executa os três cenár
 
 ## Versionamento
 
-A branch `pedro-braga` foi criada a partir de `main`. A entrega da prova está no [pull request para main](https://github.com/Dopre-PNB/senai-prova-preview/pull/1).
+A versão final da prova está na branch `main`. A branch `pedro-braga` foi criada a partir de `main` e integrada pelo [pull request nº 1](https://github.com/Dopre-PNB/senai-prova-preview/pull/1), concluído. Após a integração, a branch de trabalho foi encerrada; o pull request preserva o registro da entrega.
